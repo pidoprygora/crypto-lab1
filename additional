@@ -1,0 +1,27 @@
+def extended_gcd_recursive(a: int, b: int):
+    if b == 0:
+        return 1, 0, a
+    x1, y1, g = extended_gcd_recursive(b, a % b)
+
+    x = y1
+    y = x1 - (a // b) * y1
+
+    return x, y, g
+
+def mod_inverse_recursive(a: int, m: int) -> int:
+    x, y, g = extended_gcd_recursive(a, m)
+    if g != 1:
+        return None  # якщо gcd(a, m) != 1, оберненого не існує
+    return x % m
+
+if __name__ == "__main__":
+    a = 61
+    m = 327
+    inv_rec = mod_inverse_recursive(a, m)
+    if inv_rec is None:
+        print(f"(Рекурсивно) Оберненого до числа {a} (mod {m}) не існує.")
+    else:
+        print(f"(Рекурсивно) Обернене до {a} (mod {m}) = {inv_rec}")
+        # Перевірка
+        check_rec = (a * inv_rec) % m
+        print(f"(Рекурсивно) Перевірка: (a * a^(-1)) mod m = {check_rec} (очікується 1).")
