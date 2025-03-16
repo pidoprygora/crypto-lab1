@@ -1,0 +1,38 @@
+def gcd_euclid(a: int, b: int) -> int:
+   while b != 0:
+        a, b = b, a % b
+    return a
+
+def extended_gcd(a: int, b: int):
+    old_r, r = a, b
+    old_x, x = 1, 0
+    old_y, y = 0, 1
+
+    while r != 0:
+        q = old_r // r  # частка від ділення
+        old_r, r = r, old_r - q * r
+        old_x, x = x, old_x - q * x
+        old_y, y = y, old_y - q * y
+    return old_r, old_x, old_y
+
+def mod_inverse(a: int, m: int) -> int:
+   
+    g, x, y = extended_gcd(a, m)
+    if g != 1:
+        return None 
+    else:
+    
+        return x % m
+
+if __name__ == "__main__":
+    a = 61
+    m = 327
+
+    inv = mod_inverse(a, m)
+    if inv is None:
+        print(f"Оберненого до числа {a} (mod {m}) не існує (gcd != 1).")
+    else:
+        print(f"Обернене до {a} (mod {m}) = {inv}")
+        # Перевірка: (a * inv) % m == 1 ?
+        check = (a * inv) % m
+        print(f"Перевірка: (a * a^(-1)) mod m = {check} (очікується 1).")
